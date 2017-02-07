@@ -83,7 +83,8 @@ var saveTranscript = function(){
 
 io.on('connection', function(socket){
   socket.on('chat message', function(userName, msg){
-    io.emit('chat message', userName, msg);
+  	// send to everyone except the socket that sent it
+    socket.broadcast.emit('chat message', userName, msg);
     createMessage(userName, msg);
   });
   socket.on('newConnection', function(userName){

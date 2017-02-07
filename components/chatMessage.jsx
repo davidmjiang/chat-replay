@@ -6,13 +6,18 @@ class Message extends React.Component {
 		let text;
 		if(this.props.text.type === 'connection'){
 			text = `${this.props.text.name} has connected`;
+			return <li>{text}</li>;
+		}
+		else if(this.props.text.type === 'disconnection'){
+			text = `${this.props.text.name} has disconnected`;
+			return <li>{text}</li>;
+		}
+		else if(this.props.text.canDelete){
+			return <li>{this.props.text.message}<a>X</a></li>;
 		}
 		else{
-			text = this.props.text;
+			return <li>{this.props.text.message}</li>;	
 		}
-		return (
-			<li>{text} <a>X</a></li>
-			);
 	}
 }
 
