@@ -1,8 +1,8 @@
 /* jshint strict: false, asi: true, esversion:6 */
 const React = require('react');
 const Chatbox = require('./chatBox.jsx');
-const Landing = require('./Landing.jsx');
-const Replay = require('./Replay.jsx');
+import Landing from './Landing.jsx';
+import Replay from './Replay.jsx';
 import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends React.Component{
