@@ -25,8 +25,16 @@ app.use(function(req, res, next){
 	next();
 });
 
-app.get('*', function(req, res){
+app.get(['/','/chat','/replay'], function(req, res){
   res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/api/replays', function(req,res){
+	var replaysRef = database.ref('/transcript').orderByKey();
+	replaysRef.once('value').then(function(snapshot){
+		var data = snapshot.val();
+		res.json(data);
+	});
 });
 
 // app.get('/script.js', function(req, res){
@@ -45,15 +53,21 @@ var firstConnection = true;
 var userID = 0;
 var messageID = 0;
 var ids = {};
-var transcript = [];
+var transcript = {};
 var createUser = function(userName){
+	if(firstConnection){
+		startTime = new Date().getTime();
+		transcript.messages = [];
+		transcript.startTime = new Date(startTime).toString();
+		firstConnection = false;
+	}
 	userID ++;
 	ids[userName] = userID;
 	var newEntry = {
 		delta: new Date().getTime()-startTime, 
 		payload: {type: "connect", user: { id: userID, display_name: userName}}
 	};
-	transcript.push(newEntry);
+	transcript.messages.push(newEntry);
 };
 
 var createDisconnect = function(userName){
@@ -61,7 +75,7 @@ var createDisconnect = function(userName){
 		delta: new Date().getTime()-startTime,
 		payload: {type: "disconnect", user: {id: ids[userName], display_name: userName}}
 	};
-	transcript.push(newEntry);
+	transcript.messages.push(newEntry);
 };
 
 var createMessage = function(userName, msg){
@@ -73,7 +87,7 @@ var createMessage = function(userName, msg){
 			message: {id: messageID, text: msg}
 		}
 	};
-	transcript.push(newEntry);
+	transcript.messages.push(newEntry);
 };
 
 var saveTranscript = function(){
@@ -89,10 +103,6 @@ io.on('connection', function(socket){
   });
   socket.on('newConnection', function(userName){
   	clientCount ++;
-  	if(firstConnection){
-  		startTime = new Date().getTime();
-  		firstConnection = false;
-  	}
   	io.emit('newConnection', userName);
   	createUser(userName);
   });
