@@ -13,10 +13,10 @@ class Message extends React.Component {
 			return <li>{text}</li>;
 		}
 		else if(this.props.text.canDelete){
-			return <li>{this.props.text.message}<a>X</a></li>;
+			return <li>{this.props.text.userName}: {this.props.text.message} <button>X</button></li>;
 		}
 		else{
-			return <li>{this.props.text.message}</li>;	
+			return <li>{this.props.text.userName}: {this.props.text.message}</li>;	
 		}
 	}
 }

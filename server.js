@@ -25,8 +25,8 @@ app.use(function(req, res, next){
 	next();
 });
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + './public/index.html');
+app.get('*', function(req, res){
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 // app.get('/script.js', function(req, res){

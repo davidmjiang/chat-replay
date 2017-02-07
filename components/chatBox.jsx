@@ -16,7 +16,7 @@ class Chatbox extends React.Component {
 		this.socket.emit('newConnection', this.userName);
 
 		this.socket.on('chat message', (userName, msg) => {
-			var newMessage = {type: "message", message: msg};
+			var newMessage = {type: "message", message: msg, userName: userName};
 			this.setState(function(prevState){
 				return {messages: prevState.messages.concat([newMessage])};
 			});
@@ -41,12 +41,18 @@ class Chatbox extends React.Component {
 	}
 	handleSubmit(msg){
 		// add to chatbox for person who sent it
-		var newMessage = {type: "message", message: msg, canDelete: true}
+		var newMessage = {type: "message", message: msg, userName: this.userName, canDelete: true}
 		this.setState(function(prevState){
 			return {messages: prevState.messages.concat([newMessage])}
 		})
 		this.socket.emit('chat message', this.userName, msg)
 	}
+	// handleDelete(idx){
+	// 	let messages = this.state.messages
+	// 	messages.splice(idx);
+	// 	this.setState({messages: messages});
+	// 	this.socket.emit('deleted', )
+	// }
 	render () {
 		return (
 			<div>

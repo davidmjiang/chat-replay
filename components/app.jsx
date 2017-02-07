@@ -1,9 +1,9 @@
 /* jshint strict: false, asi: true, esversion:6 */
 const React = require('react');
 const Chatbox = require('./chatBox.jsx');
-const Chatform = require('./chatForm.jsx');
-const io = require('socket.io-client');
-var $ = require("jquery");
+const Landing = require('./Landing.jsx');
+const Replay = require('./Replay.jsx');
+import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends React.Component{
 	constructor (props) {
@@ -11,11 +11,15 @@ class App extends React.Component{
 	}
 	render () {
 		return (
-				<div>
-					<Chatbox />
+			<BrowserRouter>
+				<div className='app'>
+					<Route exact path='/' component ={Landing} />
+					<Route path='/chat' component={Chatbox} />
+					<Route path='/replay' component={Replay} />
 				</div>
+			</BrowserRouter>
 			)
 	}
 }
 
-module.exports = App
+export default App
