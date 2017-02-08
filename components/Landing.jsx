@@ -9,7 +9,7 @@ class Landing extends React.Component{
 				<h1>Welcome to Chat</h1>
 				<ul>
 					<li><Link to="/chat">Enter the chatroom</Link></li>
-					<li><a href="http://localhost:3000/replays">See chat replays</a></li>
+					<li><a href="https://floating-basin-79702.herokuapp.com/replays">See chat replays</a></li>
 				</ul>
 			</div>
 			)
