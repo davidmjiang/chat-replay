@@ -19,16 +19,22 @@ http.listen(3000, function(){
 });
 
 app.use(express.static('./public'));
+app.use(express.static('./node_modules/axios/dist'));
 
 app.use(function(req, res, next){
 	res.header("Access-Control-Allow-Origin", "*");
 	next();
 });
 
-app.get(['/','/chat','/replay'], function(req, res){
+app.get(['/','/chat'], function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/replays', function(req,res){
+	res.sendFile(__dirname + '/public/replays/replay.html');
+});
+
+// gets all the replays
 app.get('/api/replays', function(req,res){
 	var replaysRef = database.ref('/transcript').orderByKey();
 	replaysRef.once('value').then(function(snapshot){
