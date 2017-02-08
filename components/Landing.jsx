@@ -1,7 +1,6 @@
 /* jshint strict: false, asi: true, esversion:6 */
 const React = require('react');
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 class Landing extends React.Component{
 	render(){
