@@ -3,6 +3,7 @@ const React = require('react');
 const Message = require('./chatMessage.jsx');
 const Chatform = require('./chatForm.jsx');
 var io = require('socket.io-client');
+import { connect } from 'react-redux';
 
 class Chatbox extends React.Component {
 	constructor (props) {
@@ -65,4 +66,13 @@ class Chatbox extends React.Component {
 	}
 }
 
-module.exports = Chatbox
+// takes in the redux store and returns what is needed by the component
+const mapStateToProps = (state) => {
+	return {
+		messages: state.messages
+	}
+}
+
+//this makes ChatBox a redux-enabled component
+//it will have props generated from mapStateToProps
+export default connect(mapStateToProps)(Chatbox)
