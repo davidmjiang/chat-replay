@@ -5,17 +5,17 @@ var io = require('socket.io')(http);
 var firebase = require("firebase");
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyAvBfcrhH-GMPFdIL68yrkK_1k54vMBQEw",
-  authDomain: "chat-app-e0b5d.firebaseapp.com",
+  apiKey: process.env.apikey,
+  authDomain: process.env.authdomain,
   databaseURL: "https://chat-app-e0b5d.firebaseio.com",
   storageBucket: "chat-app-e0b5d.appspot.com",
 };
 firebase.initializeApp(config);
 var database = firebase.database();
 //var data = require('./data.json');
-
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+var port = process.env.PORT || 3000;
+http.listen(port, function(){
+  console.log('listening on' + port.toString());
 });
 
 app.use(express.static('./public'));

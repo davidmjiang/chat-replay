@@ -104,7 +104,7 @@ var mainModule = function(messages){
 
 $(document).ready(function(){
 	var data;
-	axios.get('http://localhost:3000/api/replays').then(function(response){
+	axios.get('https://floating-basin-79702.herokuapp.com/api/replays').then(function(response){
 		data = response.data;
 		for(var key in data){
 			$('.links').append(`<li data-id=${key} class="link">${data[key].startTime}</li>`);
