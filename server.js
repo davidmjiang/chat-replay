@@ -5,8 +5,8 @@ var io = require('socket.io')(http);
 var firebase = require("firebase");
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyAvBfcrhH-GMPFdIL68yrkK_1k54vMBQEw",
-  authDomain: "chat-app-e0b5d.firebaseapp.com",
+  apiKey: process.env.apikey,
+  authDomain: process.env.authdomain,
   databaseURL: "https://chat-app-e0b5d.firebaseio.com",
   storageBucket: "chat-app-e0b5d.appspot.com",
 };
