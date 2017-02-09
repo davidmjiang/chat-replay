@@ -107,7 +107,8 @@ $(document).ready(function(){
 	axios.get('https://floating-basin-79702.herokuapp.com/api/replays').then(function(response){
 		data = response.data;
 		for(var key in data){
-			$('.links').append(`<li data-id=${key} class="link">${data[key].startTime}</li>`);
+			var clientTime = new Date(data[key].startTime);
+			$('.links').append(`<li data-id=${key} class="link">${clientTime}</li>`);
 		}
 		$('.links').on('click', 'li', function(e){
 			$('.chat-box').empty();
