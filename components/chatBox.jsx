@@ -14,8 +14,7 @@ class Chatbox extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this)
 	}
 	componentWillMount(){
-		//this.socket = io('https://floating-basin-79702.herokuapp.com/');
-		this.socket = io('http://localhost:3000');
+		this.socket = io('https://floating-basin-79702.herokuapp.com/');
 		this.userName = prompt("Welcome to my chat app! What's your username?") || "Annonymous";
 		this.socket.emit('newConnection', this.userName);
 
@@ -49,7 +48,6 @@ class Chatbox extends React.Component {
 	render () {
 		return (
 			<div>
-				<pre><code>{JSON.stringify(this.props.messages)}</code></pre>
 			  <ul id="messages">
 					{this.props.messages.map((msg, index) => (<Message text={msg} key={index} userName={this.userName} handleDelete={this.handleDelete} />))}
 				</ul>
