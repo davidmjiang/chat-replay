@@ -12,7 +12,7 @@ var config = {
 };
 firebase.initializeApp(config);
 var database = firebase.database();
-//var data = require('./data.json');
+
 var port = process.env.PORT || 3000;
 http.listen(port, function(){
   console.log('listening on' + port.toString());
@@ -43,22 +43,18 @@ app.get('/api/replays', function(req,res){
 	});
 });
 
-// app.get('/script.js', function(req, res){
-// 	res.sendFile(__dirname+ '/script.js');
-// });
-
 app.get('/data', function(req, res){
 	database.ref('/transcript/0').once('value').then(function(snapshot){
 		var data = snapshot.val();
 		res.json(data);
 	});
 });
+var clients = {};
 var startTime;
 var clientCount = 0;
 var firstConnection = true;
 var userID = 0;
 var messageID = 0;
-var ids = {};
 var transcript = {};
 var createUser = function(userName){
 	if(firstConnection){
@@ -68,7 +64,7 @@ var createUser = function(userName){
 		firstConnection = false;
 	}
 	userID ++;
-	ids[userName] = userID;
+	clients[userName].id = userID;
 	var newEntry = {
 		delta: new Date().getTime()-startTime, 
 		payload: {type: "connect", user: { id: userID, display_name: userName}}
@@ -79,7 +75,7 @@ var createUser = function(userName){
 var createDisconnect = function(userName){
 	var newEntry = {
 		delta: new Date().getTime()-startTime,
-		payload: {type: "disconnect", user: {id: ids[userName], display_name: userName}}
+		payload: {type: "disconnect", user: {id: clients[userName].id, display_name: userName}}
 	};
 	transcript.messages.push(newEntry);
 };
@@ -89,8 +85,20 @@ var createMessage = function(userName, msg){
 	var newEntry = {
 		delta: new Date().getTime()-startTime, 
 		payload: {type:"message", 
-			user: { id: ids[userName], display_name: userName}, 
+			user: { id: clients[userName].id, display_name: userName}, 
 			message: {id: messageID, text: msg}
+		}
+	};
+	transcript.messages.push(newEntry);
+};
+
+var createDelete = function(mID){
+	var newEntry = {
+		delta: new Date().getTime()-startTime,
+		payload: {type: "delete",
+			message: {
+				id: mID
+			}
 		}
 	};
 	transcript.messages.push(newEntry);
@@ -103,14 +111,22 @@ var saveTranscript = function(){
 
 io.on('connection', function(socket){
   socket.on('chat message', function(userName, msg){
-  	// send to everyone except the socket that sent it
-    socket.broadcast.emit('chat message', userName, msg);
+  	var userID = clients[userName].id;
     createMessage(userName, msg);
+  	io.emit('chat message', userName, userID, msg, messageID);
+  });
+  socket.on('deleted', function(mID){
+  	socket.broadcast.emit('deleted', mID);
+  	createDelete(mID);
   });
   socket.on('newConnection', function(userName){
   	clientCount ++;
-  	io.emit('newConnection', userName);
+  	clients[userName] = {
+  		"socket": socket.id
+  	};
   	createUser(userName);
+  	//io.sockets.connected[socket.id].emit("userID", userID);
+  	io.emit('newConnection', userName);
   });
   socket.on('window close', function(userName){
   	clientCount --;

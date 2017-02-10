@@ -50,7 +50,7 @@ var mainModule = function(messages){
 	var addMessage = function(data){
 		var text = formatText(data.message.text);
 	  var message = 
-	  `<div data-id=${data.message.id}>
+	  `<div class="message-block" data-id=${data.message.id}>
 	  	<div class="user" data-id=${data.user.id}>${data.user.display_name}</div>
 	  	<span class="message" data-id=${data.message.id}>${text}</span>
 	  </div>`;
@@ -77,7 +77,7 @@ var mainModule = function(messages){
 	};
 
 	var deleteMessage = function(data){
-	  $(`div[data-id=${data.message.id}]`).remove();
+	  $(`.message-block[data-id=${data.message.id}]`).remove();
 	};
 
 	var disconnect = function(data){
