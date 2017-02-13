@@ -16206,32 +16206,43 @@ var Landing = function (_React$Component) {
 	_createClass(Landing, [{
 		key: 'render',
 		value: function render() {
+			var styles = { width: "40%", border: "2px solid black", display: "inline-block", margin: "2px", padding: "10px", textAlign: "center", backgroundColor: "#0079bf" };
+			var linkStyle = { color: "white" };
 			return React.createElement(
 				'div',
 				null,
 				React.createElement(
-					'h1',
-					null,
-					'Welcome to Chat'
-				),
-				React.createElement(
-					'ul',
-					null,
+					'div',
+					{ style: styles },
 					React.createElement(
-						'li',
+						'h4',
 						null,
-						React.createElement(
-							__WEBPACK_IMPORTED_MODULE_0_react_router_dom__["c" /* Link */],
-							{ to: '/chat' },
-							'Enter the chatroom'
-						)
+						'Chat with friends. We\'ll save the transcript for you.'
 					),
 					React.createElement(
-						'li',
-						null,
+						__WEBPACK_IMPORTED_MODULE_0_react_router_dom__["c" /* Link */],
+						{ to: '/chat', style: linkStyle },
 						React.createElement(
-							'a',
-							{ href: 'https://floating-basin-79702.herokuapp.com/replays' },
+							'h2',
+							null,
+							'Enter the chatroom'
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ style: styles },
+					React.createElement(
+						'h4',
+						null,
+						'Then replay the chat whenver you want.'
+					),
+					React.createElement(
+						'a',
+						{ href: 'https://floating-basin-79702.herokuapp.com/replays', style: linkStyle },
+						React.createElement(
+							'h2',
+							null,
 							'See chat replays'
 						)
 					)
@@ -16287,7 +16298,8 @@ var Chatbox = function (_React$Component) {
 		value: function componentWillMount() {
 			var _this2 = this;
 
-			this.socket = io('https://floating-basin-79702.herokuapp.com/');
+			// this.socket = io('https://floating-basin-79702.herokuapp.com/');
+			this.socket = io('http://localhost:3000');
 			this.userName = prompt("Welcome to my chat app! What's your username?") || "Annonymous";
 			this.socket.emit('newConnection', this.userName);
 
@@ -16475,16 +16487,17 @@ var Message = function (_React$Component) {
 			else if (this.props.text.userName === this.props.userName) {
 					return React.createElement(
 						'li',
-						null,
+						{ className: 'message' },
 						this.props.text.userName,
 						': ',
 						this.props.text.message,
 						' ',
 						React.createElement(
 							'button',
-							{ onClick: this.handleDelete },
+							{ className: 'icons', onClick: this.handleDelete },
 							'X'
-						)
+						),
+						React.createElement('i', { className: 'icons fa fa-pencil-square-o' })
 					);
 				} else {
 					return React.createElement(

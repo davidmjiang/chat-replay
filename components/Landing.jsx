@@ -4,13 +4,18 @@ import { Link } from 'react-router-dom';
 
 class Landing extends React.Component{
 	render(){
+		const styles={width: "40%", border: "2px solid black", display: "inline-block", margin: "2px", padding: "10px", textAlign: "center", backgroundColor: "#0079bf"}
+		const linkStyle = {color: "white"}
 		return (
 			<div>
-				<h1>Welcome to Chat</h1>
-				<ul>
-					<li><Link to="/chat">Enter the chatroom</Link></li>
-					<li><a href="https://floating-basin-79702.herokuapp.com/replays">See chat replays</a></li>
-				</ul>
+				<div style={styles}>
+					<h4>Chat with friends. We'll save the transcript for you.</h4>
+					<Link to="/chat" style={linkStyle}><h2>Enter the chatroom</h2></Link>
+				</div>
+				<div style={styles}>
+					<h4>Then replay the chat whenver you want.</h4>
+					<a href="https://floating-basin-79702.herokuapp.com/replays" style={linkStyle}><h2>See chat replays</h2></a>
+				</div>
 			</div>
 			)
 	}

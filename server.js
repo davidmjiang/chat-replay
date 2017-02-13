@@ -20,6 +20,7 @@ http.listen(port, function(){
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/axios/dist'));
+app.use(express.static('./node_modules/font-awesome/css'));
 
 app.use(function(req, res, next){
 	res.header("Access-Control-Allow-Origin", "*");

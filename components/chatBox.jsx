@@ -14,7 +14,8 @@ class Chatbox extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this)
 	}
 	componentWillMount(){
-		this.socket = io('https://floating-basin-79702.herokuapp.com/');
+		// this.socket = io('https://floating-basin-79702.herokuapp.com/');
+		this.socket = io('http://localhost:3000');
 		this.userName = prompt("Welcome to my chat app! What's your username?") || "Annonymous";
 		this.socket.emit('newConnection', this.userName);
 
