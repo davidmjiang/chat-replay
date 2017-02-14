@@ -44,12 +44,6 @@ app.get('/api/replays', function(req,res){
 	});
 });
 
-app.get('/data', function(req, res){
-	database.ref('/transcript/0').once('value').then(function(snapshot){
-		var data = snapshot.val();
-		res.json(data);
-	});
-});
 var clients = {};
 var startTime;
 var clientCount = 0;
@@ -126,7 +120,6 @@ io.on('connection', function(socket){
   		"socket": socket.id
   	};
   	createUser(userName);
-  	//io.sockets.connected[socket.id].emit("userID", userID);
   	io.emit('newConnection', userName);
   });
   socket.on('window close', function(userName){
