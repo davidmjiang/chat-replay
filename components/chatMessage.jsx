@@ -21,7 +21,7 @@ class Message extends React.Component {
 		}
 		// messages
 		else if(this.props.text.userName === this.props.userName){
-			return <li className="message">{this.props.text.userName}: {this.props.text.message} <button className="icons" onClick={this.handleDelete}>X</button><i className="icons fa fa-pencil-square-o"></i></li>;
+			return <li className="message">{this.props.text.userName}: {this.props.text.message} <button className="icons" onClick={this.handleDelete}>X</button></li>;
 		}
 		else{
 			return <li>{this.props.text.userName}: {this.props.text.message}</li>;	

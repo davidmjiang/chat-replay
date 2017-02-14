@@ -1,6 +1,7 @@
 /* jshint strict: false, asi: true, esversion:6 */
 const React = require('react');
 import { Link } from 'react-router-dom';
+import { url } from '../constants.jsx';
 
 class Landing extends React.Component{
 	render(){
@@ -14,7 +15,7 @@ class Landing extends React.Component{
 				</div>
 				<div style={styles}>
 					<h4>Then replay the chat whenver you want.</h4>
-					<a href="https://floating-basin-79702.herokuapp.com/replays" style={linkStyle}><h2>See chat replays</h2></a>
+					<a href={`${url}/replays`} style={linkStyle}><h2>See chat replays</h2></a>
 				</div>
 			</div>
 			)

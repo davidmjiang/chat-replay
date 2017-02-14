@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "scripts": {
-    "prestart": "webpack",
+    "build:dev": "environment=development webpack",
+    "build:prod": "environment=production webpack",
     "start": "node server.js"
   },
   "dependencies": {

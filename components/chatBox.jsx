@@ -2,6 +2,7 @@
 const React = require('react');
 const Message = require('./chatMessage.jsx');
 const Chatform = require('./chatForm.jsx');
+import { url } from '../constants.jsx';
 var io = require('socket.io-client');
 import { connect } from 'react-redux';
 import { addMessage }from '../redux-stuff/actionCreators.js'
@@ -14,8 +15,7 @@ class Chatbox extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this)
 	}
 	componentWillMount(){
-		// this.socket = io('https://floating-basin-79702.herokuapp.com/');
-		this.socket = io('http://localhost:3000');
+		this.socket = io(url);
 		this.userName = prompt("Welcome to my chat app! What's your username?") || "Annonymous";
 		this.socket.emit('newConnection', this.userName);
 
