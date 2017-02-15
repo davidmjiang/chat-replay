@@ -106,6 +106,7 @@ $(document).ready(function(){
 	var data;
 	axios.get('https://floating-basin-79702.herokuapp.com/api/replays').then(function(response){
 		data = response.data;
+		$('.links').empty();
 		for(var key in data){
 			var clientTime = new Date(data[key].startTime);
 			$('.links').append(`<li data-id=${key} class="link">${clientTime}</li>`);
