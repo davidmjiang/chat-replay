@@ -7,12 +7,16 @@ var io = require('socket.io-client');
 import { connect } from 'react-redux';
 import { addMessage }from '../redux-stuff/actionCreators.js'
 import { deleteMessage } from '../redux-stuff/actionCreators.js'
+import { toggleEdit } from '../redux-stuff/actionCreators.js'
+import { editMessage } from '../redux-stuff/actionCreators.js'
 
 class Chatbox extends React.Component {
 	constructor (props) {
 		super(props)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleDelete = this.handleDelete.bind(this)
+		this.toggleEdit = this.toggleEdit.bind(this)
+		this.handleEdit = this.handleEdit.bind(this)
 	}
 	componentWillMount(){
 		this.socket = io(url);
@@ -20,7 +24,7 @@ class Chatbox extends React.Component {
 		this.socket.emit('newConnection', this.userName);
 
 		this.socket.on('chat message', (userName, userID, message, messageID) => {
-			var newMessage = {type: "message", message, userName, userID, messageID};
+			var newMessage = {type: "message", message, userName, userID, messageID, editing: false};
 			this.props.dispatch(addMessage(newMessage))
 		});
 		this.socket.on('newConnection', (userName) => {
@@ -38,6 +42,9 @@ class Chatbox extends React.Component {
 		this.socket.on('deleted', (messageID) => {
 			this.props.dispatch(deleteMessage(messageID))
 		});
+		this.socket.on('edited', (messageID, msg) => {
+			this.props.dispatch(editMessage(messageID, msg))
+		});
 	}
 	handleSubmit(msg){
 		this.socket.emit('chat message', this.userName, msg)
@@ -46,11 +53,18 @@ class Chatbox extends React.Component {
 		this.props.dispatch(deleteMessage(messageID))
 		this.socket.emit('deleted', messageID)
 	}
+	toggleEdit(messageID){
+		this.props.dispatch(toggleEdit(messageID))
+	}
+	handleEdit(messageID, msg){
+		this.props.dispatch(editMessage(messageID, msg))
+		this.socket.emit('edited', messageID, msg)
+	}
 	render () {
 		return (
 			<div>
 			  <ul id="messages">
-					{this.props.messages.map((msg, index) => (<Message text={msg} key={index} userName={this.userName} handleDelete={this.handleDelete} />))}
+					{this.props.messages.map((msg, index) => (<Message text={msg} key={index} userName={this.userName} handleDelete={this.handleDelete} toggleEdit={this.toggleEdit} handleEdit={this.handleEdit} />))}
 				</ul>
 				<Chatform handleSubmit={this.handleSubmit} />
 			</div>

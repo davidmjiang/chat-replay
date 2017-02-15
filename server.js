@@ -99,6 +99,19 @@ var createDelete = function(mID){
 	transcript.messages.push(newEntry);
 };
 
+var createEdit = function(mID, msg){
+	var newEntry = {
+		delta: new Date().getTime()-startTime,
+		payload: {type: "update", 
+			message: {
+				id: mID,
+				text: msg
+			}
+		}
+	};
+	transcript.messages.push(newEntry);
+};
+
 var saveTranscript = function(){
 	database.ref('/transcript').push(transcript);
 	console.log("saved to database");
@@ -113,6 +126,10 @@ io.on('connection', function(socket){
   socket.on('deleted', function(mID){
   	socket.broadcast.emit('deleted', mID);
   	createDelete(mID);
+  });
+  socket.on('edited', function(mID, msg){
+  	socket.broadcast.emit('edited', mID, msg);
+  	createEdit(mID, msg);
   });
   socket.on('newConnection', function(userName){
   	clientCount ++;
