@@ -1,5 +1,6 @@
 /* jshint strict: false, asi: true, esversion:6 */
 const React = require('react');
+const { object, func, string } = React.PropTypes
 
 class Message extends React.Component {
 	constructor(props){
@@ -58,6 +59,14 @@ class Message extends React.Component {
 			return <li>{this.props.text.userName}: {this.props.text.message}</li>;	
 		}
 	}
+}
+
+Message.propTypes = {
+	text: object,
+	handleEdit: func,
+	userName: string,
+	handleDelete: func,
+	toggleEdit: func
 }
 
 module.exports = Message

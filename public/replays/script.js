@@ -47,8 +47,25 @@ var mainModule = function(messages){
 	 }
 	};
 
+	var entityMap = {
+		'&': '&amp;',
+	  '<': '&lt;',
+	  '>': '&gt;',
+	  '"': '&quot;',
+	  "'": '&#39;',
+	  '/': '&#x2F;',
+	  '`': '&#x60;',
+	  '=': '&#x3D;'	
+	};
+
+	var escapeHtml = function(string) {
+		return String(string).replace(/[&<>"'`=\/]/g, function(s){
+			return entityMap[s];
+		});
+	};
+
 	var addMessage = function(data){
-		var text = formatText(data.message.text);
+		var text = formatText(escapeHtml(data.message.text));
 	  var message = 
 	  `<div class="message-block" data-id=${data.message.id}>
 	  	<div class="user" data-id=${data.user.id}>${data.user.display_name}</div>
@@ -59,7 +76,8 @@ var mainModule = function(messages){
 	};
 
 	var addConnection = function(data){
-		var connection = `<div class="connection"><span class="user">${data.user.display_name}</span><span> has connected</span></div>`;
+		var name = escapeHtml(data.user.display_name);
+		var connection = `<div class="connection"><span class="user">${name}</span><span> has connected</span></div>`;
 		$('.chat-box').append(connection);
 		scrollToBottom();
 	};
@@ -71,7 +89,7 @@ var mainModule = function(messages){
 	  }
 	  //message update
 	  else if(data.message){
-	  	var text = formatText(data.message.text);
+	  	var text = formatText(escapeHtml(data.message.text));
 	    $(`.message[data-id=${data.message.id}]`).empty().append(text);
 	  }
 	};
@@ -81,7 +99,8 @@ var mainModule = function(messages){
 	};
 
 	var disconnect = function(data){
-		var disconnection = `<div class="disconnection"><span class="user">${data.user.display_name}</span><span> has disconnected</span></div>`;
+		var name = escapeHtml(data.user.display_name);
+		var disconnection = `<div class="disconnection"><span class="user">${name}</span><span> has disconnected</span></div>`;
 		$('.chat-box').append(disconnection);
 		scrollToBottom();
 	};

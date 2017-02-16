@@ -9,6 +9,7 @@ import { addMessage }from '../redux-stuff/actionCreators.js'
 import { deleteMessage } from '../redux-stuff/actionCreators.js'
 import { toggleEdit } from '../redux-stuff/actionCreators.js'
 import { editMessage } from '../redux-stuff/actionCreators.js'
+const { array } = React.PropTypes
 
 class Chatbox extends React.Component {
 	constructor (props) {
@@ -71,6 +72,11 @@ class Chatbox extends React.Component {
 			);
 	}
 }
+
+Chatbox.proptypes = {
+	messages: array
+}
+
 
 // takes in the redux store and returns what is needed by the component
 const mapStateToProps = (state) => {
